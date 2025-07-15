@@ -1,6 +1,7 @@
 package user_service.demo.entities;
 
 import jakarta.persistence.*;
+import user_service.demo.utils.PasswordHash;
 
 import java.util.UUID;
 
