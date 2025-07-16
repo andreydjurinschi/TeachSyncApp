@@ -5,6 +5,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.PersistenceException;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import user_service.demo.exceptions.CreateUpdateEntityException;
 import user_service.demo.entities.User;
 import user_service.demo.exceptions.NotFoundException;
@@ -19,7 +20,7 @@ public class UserRepository {
     private EntityManager em;
 
     public List<User> getUsers() {
-        String hql = "From User join fetch User.role";
+        String hql = "From User";
         return em.createQuery(hql, User.class).getResultList();
     }
 
@@ -32,6 +33,7 @@ public class UserRepository {
         }
     }
 
+
     public void createUser(User user) {
         try{
             em.persist(user);
@@ -40,6 +42,7 @@ public class UserRepository {
         }
     }
 
+
     public void updateUser(User user) {
         try{
             em.merge(user);
@@ -47,10 +50,12 @@ public class UserRepository {
             throw new CreateUpdateEntityException(e.getMessage());
         }
     }
+
+
     public void deleteUser(UUID id) throws NotFoundException {
         try{
             User user = getUser(id);
-            em.remove(user.getId());
+            em.remove(user);
         }catch(NoResultException e){
             throw new NotFoundException("User not found");
         }

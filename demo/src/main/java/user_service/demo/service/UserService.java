@@ -1,6 +1,7 @@
 package user_service.demo.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import user_service.demo.dto.CreateUpdateUserDTO;
 import user_service.demo.dto.UserToFindDTO;
 import user_service.demo.entities.User;
@@ -40,6 +41,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void createUser(CreateUpdateUserDTO userToCreate) throws CreateUpdateEntityException {
         try {
             User user = new User();
@@ -55,6 +57,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void updateUser(UUID id, CreateUpdateUserDTO userToUpdate) throws CreateUpdateEntityException, NotFoundException {
         try{
             User user = userRepository.getUser(id);
@@ -64,11 +67,27 @@ public class UserService {
             if (userToUpdate.getEmail() != null) {
                 user.setEmail(userToUpdate.getEmail());
             }
-
             if (userToUpdate.getRole() != null) {
                 user.setRole(userToUpdate.getRole());
             }
+            if(userToUpdate.getUsername() != null) {
+                user.setUsername(userToUpdate.getUsername());
+            }
+            userRepository.updateUser(user);
+        }catch (CreateUpdateEntityException e){
+            throw new CreateUpdateEntityException(e.getMessage());
+        }catch (NotFoundException e){
+            throw new NotFoundException(e.getMessage());
+        }
+    }
 
+    @Transactional
+    public void deleteUser(UUID id) throws NotFoundException {
+        try{
+            User user = userRepository.getUser(id);
+            userRepository.deleteUser(user.getId());
+        }catch (NotFoundException e){
+            throw new NotFoundException(e.getMessage());
         }
     }
 }
