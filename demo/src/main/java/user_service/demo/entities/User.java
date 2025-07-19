@@ -12,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private UUID Id;
+    private UUID id;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -32,7 +32,7 @@ public class User {
     }
 
     public User(UUID id, String username, String hashedPassword, String full_name, String email, UserRole role) {
-        Id = id;
+        this.id = id;
         this.username = username;
         this.hashedPassword = hashedPassword;
         this.full_name = full_name;
@@ -41,11 +41,11 @@ public class User {
     }
 
     public UUID getId() {
-        return Id;
+        return id;
     }
 
     public void setId(UUID id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getUsername() {

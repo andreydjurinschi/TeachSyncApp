@@ -3,7 +3,10 @@ package user_service.demo.dto;
 import jakarta.persistence.Column;
 import user_service.demo.entities.UserRole;
 
+import java.util.UUID;
+
 public class UserToFindDTO {
+    private UUID id;
     private String username;
     private String full_name;
     private String email;
@@ -13,7 +16,16 @@ public class UserToFindDTO {
 
     }
 
-    public UserToFindDTO(String username, String full_name, String email, UserRole role) {
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UserToFindDTO(UUID id, String username, String full_name, String email, UserRole role) {
+        this.id = id;
         this.username = username;
         this.full_name = full_name;
         this.email = email;

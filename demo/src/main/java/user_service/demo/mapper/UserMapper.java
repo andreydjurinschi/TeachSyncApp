@@ -9,6 +9,7 @@ public class UserMapper {
 
     public UserToFindDTO userToFindDTO(User user) {
         return new UserToFindDTO(
+                user.getId(),
                 user.getUsername(),
                 user.getFull_name(),
                 user.getEmail(),
