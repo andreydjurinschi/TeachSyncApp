@@ -1,3 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: changelog/changeset/update-user-table.sql
