@@ -8,6 +8,7 @@ import {
 
 import Home from './components/Home/Home';
 import Header from './components/page-structure/Header';
+import CreatePage from './components/Users/CreatePage';
 import UserPage from './components/Users/UserPage';
 import { projectInfo } from './data';
 
@@ -22,6 +23,7 @@ function App() {
       />} />
         
       <Route path="/users" element={<UserPage />} />
+      <Route path="/users-create" element={<CreatePage />} />
       </Routes>
         
       </BrowserRouter>
