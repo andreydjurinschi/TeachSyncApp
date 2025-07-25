@@ -5,5 +5,6 @@ export default function CreatePage(){
         <p>This is the Create User page.</p>
         {/* Add your form or other components here */}
         </div>
+
     );
 } 

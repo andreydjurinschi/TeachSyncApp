@@ -28,8 +28,8 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<?> getUserById(@RequestParam UUID id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable UUID id) {
         try{
             UserToFindDTO user = userService.getUserById(id);
             return ResponseEntity.ok(user);
