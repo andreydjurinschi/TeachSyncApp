@@ -63,7 +63,7 @@ export default function UserPage() {
     <div>
       {/* <CreatePage /> */}
       <Link to="/users-create" className={location.pathname === "/users-create" ? "active" : ""}>Create User</Link>
-      <Link to="/users-create" className={location.pathname === "/users-create" ? "active" : ""}>Create User</Link>
+      
 
 
       <h3>User Page</h3>
@@ -86,6 +86,7 @@ export default function UserPage() {
               <td>{user.role}</td>
               <td>
                 <Link to={`/users/${user.id}`}>Details</Link>
+                <Link to={`/users/edit/${user.id}`}>Edit</Link>
               </td>
             </tr>
           ))}

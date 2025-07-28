@@ -1,0 +1,71 @@
+/*
+package user_service.demo.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import user_service.demo.entities.UserRole;
+
+public class UpdateUserDTO {
+
+    @NotBlank(message = "Username must not be blank")
+    @Size(min = 3, max = 15, message = "Username must be between 3 and 15 characters")
+    private String username;
+
+    @Size(min = 6, max = 15, message = "Password must be between 6 and 15 characters")
+    private String password;
+
+    @NotBlank(message = "Full name must not be blank")
+    @Size(min = 3, max = 25, message = "Full name must be between 3 and 25 characters")
+    private String full_name;
+
+    @NotBlank(message = "Email must not be blank")
+    @Email(message = "Invalid email format")
+    @Size(max = 50, message = "Email must be less than 50 characters")
+    private String email;
+
+    @NotNull(message = "User role must not be null")
+    private UserRole role;
+
+    public @NotBlank(message = "Username must not be blank") @Size(min = 3, max = 15, message = "Username must be between 3 and 15 characters") String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@NotBlank(message = "Username must not be blank") @Size(min = 3, max = 15, message = "Username must be between 3 and 15 characters") String username) {
+        this.username = username;
+    }
+
+    public @Size(min = 6, max = 15, message = "Password must be between 6 and 15 characters") String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@Size(min = 6, max = 15, message = "Password must be between 6 and 15 characters") String password) {
+        this.password = password;
+    }
+
+    public @NotBlank(message = "Full name must not be blank") @Size(min = 3, max = 25, message = "Full name must be between 3 and 25 characters") String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(@NotBlank(message = "Full name must not be blank") @Size(min = 3, max = 25, message = "Full name must be between 3 and 25 characters") String full_name) {
+        this.full_name = full_name;
+    }
+
+    public @NotBlank(message = "Email must not be blank") @Email(message = "Invalid email format") @Size(max = 50, message = "Email must be less than 50 characters") String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@NotBlank(message = "Email must not be blank") @Email(message = "Invalid email format") @Size(max = 50, message = "Email must be less than 50 characters") String email) {
+        this.email = email;
+    }
+
+    public @NotNull(message = "User role must not be null") UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(@NotNull(message = "User role must not be null") UserRole role) {
+        this.role = role;
+    }
+}
+*/

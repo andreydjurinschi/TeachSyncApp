@@ -13,7 +13,8 @@ export default function Header() {
   const location = useLocation();
   return (
     <div className="header">
-      <img src="/logo-app.jpg"></img>
+      
+        <Link to="/" className={location.pathname === "/" ? "active" : ""}><img src="/logo-app.jpg"></img></Link>
       <div className="header-right">
         {/* <Link to="/" className={location.pathname === "/" ? "active" : ""}>Home</Link> */}
         <Link to="/users" className={location.pathname === "/users" ? "active" : ""}>Users</Link>

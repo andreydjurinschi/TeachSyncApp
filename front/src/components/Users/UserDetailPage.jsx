@@ -1,6 +1,12 @@
-import { useParams } from "react-router-dom";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import { use, useEffect, useState } from "react";
+import {
+  Link,
+  useParams,
+} from 'react-router-dom';
 
 export default function UserDetailPage() {
     const { id } = useParams();
@@ -19,6 +25,7 @@ export default function UserDetailPage() {
       return (
     <div>
       <h2>User Details</h2>
+      <Link to="/users" className={location.pathname === "/" ? "active" : ""}>Назад</Link>
       <p><strong>Username:</strong> {user.username}</p>
       <p><strong>Full Name:</strong> {user.full_name}</p>
       <p><strong>Email:</strong> {user.email}</p>

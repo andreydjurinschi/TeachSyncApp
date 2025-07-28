@@ -45,6 +45,9 @@ public class UserService {
         try {
             User user = new User();
             PasswordHash hash = new PasswordHash();
+            if (userToCreate.getPassword() == null || userToCreate.getPassword().isBlank()) {
+                throw new CreateUpdateEntityException("Password must not be blank");
+            }
             user.setUsername(userToCreate.getUsername());
             user.setHashedPassword(hash.hash(userToCreate.getPassword()));
             user.setFull_name(userToCreate.getFull_name());

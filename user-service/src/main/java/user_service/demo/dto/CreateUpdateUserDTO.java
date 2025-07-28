@@ -12,7 +12,7 @@ public class CreateUpdateUserDTO {
     @Size(min = 3, max = 15, message = "Username must be between 3 and 15 characters")
     private String username;
 
-    @NotBlank(message = "Password must not be blank")
+
     @Size(min = 6, max = 15, message = "Password must be between 6 and 15 characters")
     private String password;
 
@@ -32,7 +32,7 @@ public class CreateUpdateUserDTO {
     public CreateUpdateUserDTO() {
     }
 
-    public CreateUpdateUserDTO(String username, String password ,String full_name, String email, UserRole role) {
+    public CreateUpdateUserDTO(String username, String password , String full_name, String email, UserRole role) {
         this.username = username;
         this.password = password;
         this.full_name = full_name;
