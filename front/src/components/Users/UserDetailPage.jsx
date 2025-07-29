@@ -8,6 +8,8 @@ import {
   useParams,
 } from 'react-router-dom';
 
+import Button from '../buttons/Button';
+
 export default function UserDetailPage() {
     const { id } = useParams();
     const [user, setUser] = useState(null);

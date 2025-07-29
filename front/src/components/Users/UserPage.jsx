@@ -87,6 +87,7 @@ export default function UserPage() {
               <td>
                 <Link to={`/users/${user.id}`}>Details</Link>
                 <Link to={`/users/edit/${user.id}`}>Edit</Link>
+                <Link to={`/users/delete/${user.id}`}>Delete</Link>
               </td>
             </tr>
           ))}

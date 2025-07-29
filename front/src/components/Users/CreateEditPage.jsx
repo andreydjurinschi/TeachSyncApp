@@ -95,14 +95,14 @@ export default function CreateEditPage(){
         onChange={handleChange}
         placeholder="Имя"
       />
-    <input
-    name="password"
-    type="password"
-    value={user.password}
-    onChange={handleChange}
-    placeholder="Пароль"
-    required={!isEditMode}
-    />
+        <input
+        name="password"
+        type="password"
+        value={user.password}
+        onChange={handleChange}
+        placeholder="Пароль"
+        required={!isEditMode}
+        />
       <input
         name="username"
         value={user.username}
