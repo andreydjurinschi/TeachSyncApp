@@ -1,5 +1,6 @@
 package course_service.course_service;
 
+import course_service.course_service.repository.CourseRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
