@@ -60,7 +60,12 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
         }
     }
 
-
+    /**
+     * Метод, заменяющий преподавателя на лругого в сущности {@link Course}
+     *
+     * @param courseId {@link Course} - идентификатор курса
+     * @param teacherId {@link Course} - идентификатор нового учителя
+     */
     @Override
     public void changeTeacherForCourse(UUID courseId, UUID teacherId) {
         String hql = "Update Course set teacherId = :teacherId where id = :id";
@@ -68,6 +73,19 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
                 .setParameter("teacherId", teacherId)
                 .setParameter("id", courseId)
                 .executeUpdate();
+    }
+
+    /**
+     * Метод, убирающий учителя с курса
+     *
+     * @param courseId {@link Course} - идентификатор курса
+     */
+    @Override
+    public void removeTeacherFromCourse(UUID courseId) {
+        em.createQuery("Update Course set teacherId = null where id = :courseId")
+                .setParameter("courseId", courseId)
+                .executeUpdate();
+        ;
     }
 }
 
