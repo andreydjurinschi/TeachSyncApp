@@ -1,7 +1,10 @@
 
-package course_service.course_service.repository;
+package course_service.course_service.repository.courseRepository;
 
+import course_service.course_service.Ids.CourseTopicId;
 import course_service.course_service.entities.Course;
+import course_service.course_service.entities.Topic;
+import course_service.course_service.entities.intermediate_entities.CourseTopic;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Repository;
 
@@ -85,7 +88,41 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
         em.createQuery("Update Course set teacherId = null where id = :courseId")
                 .setParameter("courseId", courseId)
                 .executeUpdate();
-        ;
+    }
+
+    @Override
+    public void addTopic(UUID courseId, UUID topicId) {
+        Course course = em.find(Course.class, courseId);
+        Topic topic = em.find(Topic.class, topicId);
+        if (course == null || topic == null){
+            throw new EntityNotFoundException("Тема или курс не были найдены");
+        }
+        CourseTopicId courseTopicId = new CourseTopicId();
+        courseTopicId.setCourseId(courseId);
+        courseTopicId.settopicId(topicId);
+        CourseTopic courseTopic = new CourseTopic();
+        courseTopic.setCourseTopicId(courseTopicId);
+        courseTopic.setCourse(course);
+        courseTopic.setTopic(topic);
+        try{
+            em.persist(courseTopic);
+        }catch (PersistenceException e){
+            throw new PersistenceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void removeTopic(UUID courseId, UUID topicId) {
+        CourseTopicId courseTopicId = new CourseTopicId();
+        courseTopicId.setCourseId(courseId);
+        courseTopicId.settopicId(topicId);
+
+        try{
+            CourseTopic courseTopic = em.find(CourseTopic.class, courseTopicId);
+            em.remove(courseTopic);
+        }catch (NoResultException e){
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 }
 
