@@ -27,7 +27,7 @@ public class TopicRepositoryImpl implements TopicRepositoryCustom{
 
     public Topic getTopic(UUID topicId){
         try{
-            return entityManager.createQuery("From Topic where id = :id").setParameter("id", topicId).getSingleResult();
+            return entityManager.createQuery("From Topic where id = :id", Topic.class).setParameter("id", topicId).getSingleResult();
         }catch (NoResultException e){
             throw new EntityNotFoundException("Тема не была найдена");
         }

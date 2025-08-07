@@ -24,43 +24,28 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
      * @return courses list {@link Course}
      */
     public List<Course> getAllCourses(){
-        return em.createQuery("From Course", Course.class).getResultList();
+        return em.createQuery("Select distinct c from Course c left join fetch c.topics", Course.class).getResultList();
     }
 
     public Course getCourseById(UUID id){
         try{
             return em.createQuery("From Course where id = :id", Course.class).setParameter("id", id).getSingleResult();
         }catch (NoResultException e) {
-            throw new EntityNotFoundException("Course with id = " + id + " not found");
+            return null;
         }
     }
 
     public void createCourse(Course course){
-        try{
             em.persist(course);
-        }catch (PersistenceException e){
-            throw new PersistenceException(e.getMessage());
-        }
     }
 
     public void updateCourse(Course course){
-        try{
             em.merge(course);
-        }catch(EntityNotFoundException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
-        catch (PersistenceException e){
-            throw new PersistenceException(e.getMessage());
-        }
     }
 
     public void deleteCourse(UUID id){
-        try{
-            Course course = getCourseById(id);
-            em.remove(course);
-        }catch(NoResultException e){
-            throw new EntityNotFoundException(e.getMessage());
-        }
+        Course course = em.find(Course.class, id);
+        em.remove(course);
     }
 
     /**

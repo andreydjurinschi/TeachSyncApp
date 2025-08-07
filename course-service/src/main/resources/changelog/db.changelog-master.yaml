@@ -7,3 +7,5 @@ databaseChangeLog:
       file: changelog/changeset/create-groups-table-and-groupcourse-table.sql
   - include:
       file: changelog/changeset/create-topics-table-and-course_topics-table.sql
+  - include:
+      file: changelog/changeset/insert-data-in-courses-topics-tables.sql
