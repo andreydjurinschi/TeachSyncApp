@@ -1,0 +1,27 @@
+package course_service.course_service.dtos;
+
+public class CourseBaseDTO {
+    private String name;
+    private String description;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public CourseBaseDTO(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+}

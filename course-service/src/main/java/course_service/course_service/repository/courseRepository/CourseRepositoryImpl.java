@@ -24,12 +24,12 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
      * @return courses list {@link Course}
      */
     public List<Course> getAllCourses(){
-        return em.createQuery("Select distinct c from Course c left join fetch c.topics", Course.class).getResultList();
+        return em.createQuery("from Course", Course.class).getResultList();
     }
 
     public Course getCourseById(UUID id){
         try{
-            return em.createQuery("From Course where id = :id", Course.class).setParameter("id", id).getSingleResult();
+            return em.createQuery("select c from Course c join c.topics where c.id = :id", Course.class).setParameter("id", id).getSingleResult();
         }catch (NoResultException e) {
             return null;
         }
@@ -49,7 +49,7 @@ public class CourseRepositoryImpl implements CourseRepositoryCustom {
     }
 
     /**
-     * Метод, заменяющий преподавателя на лругого в сущности {@link Course}
+     * Метод, заменяющий преподавателя на другого в сущности {@link Course}
      *
      * @param courseId {@link Course} - идентификатор курса
      * @param teacherId {@link Course} - идентификатор нового учителя
