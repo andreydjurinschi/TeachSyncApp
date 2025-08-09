@@ -1,12 +1,17 @@
 package course_service.course_service.services;
 
-import course_service.course_service.dtos.CourseBaseDTO;
-import course_service.course_service.dtos.CourseDetailDTO;
+import course_service.course_service.dtos.courseDTO.CourseBaseDTO;
+import course_service.course_service.dtos.courseDTO.CourseCreateUpdateDTO;
+import course_service.course_service.dtos.courseDTO.CourseDetailDTO;
 import course_service.course_service.entities.Course;
 import course_service.course_service.mappers.CourseMapper;
 import course_service.course_service.repository.courseRepository.CourseRepositoryImpl;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Transient;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,5 +45,13 @@ public class CourseService {
             throw new EntityNotFoundException("Данный курс отсутствует в системе");
         }
         return courseMapper.toDTO(course);
+    }
+
+    @Transactional
+    public void createCourse(CourseCreateUpdateDTO dto){
+        Course course = new Course();
+        course.setName(dto.getName());
+        course.setDescription(dto.getDescription());
+        courseRepository.createCourse(course);
     }
 }

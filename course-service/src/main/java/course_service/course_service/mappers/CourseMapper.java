@@ -1,7 +1,7 @@
 package course_service.course_service.mappers;
 
-import course_service.course_service.dtos.CourseBaseDTO;
-import course_service.course_service.dtos.CourseDetailDTO;
+import course_service.course_service.dtos.courseDTO.CourseBaseDTO;
+import course_service.course_service.dtos.courseDTO.CourseDetailDTO;
 import course_service.course_service.entities.Course;
 import course_service.course_service.entities.Topic;
 import org.springframework.stereotype.Component;

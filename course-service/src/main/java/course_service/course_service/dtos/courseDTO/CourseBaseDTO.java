@@ -1,4 +1,4 @@
-package course_service.course_service.dtos;
+package course_service.course_service.dtos.courseDTO;
 
 public class CourseBaseDTO {
     private String name;

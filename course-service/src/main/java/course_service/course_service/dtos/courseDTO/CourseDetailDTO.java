@@ -1,6 +1,5 @@
-package course_service.course_service.dtos;
+package course_service.course_service.dtos.courseDTO;
 
-import java.util.List;
 import java.util.Set;
 
 public class CourseDetailDTO {
