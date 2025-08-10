@@ -33,19 +33,24 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDetailDTO> findCourse(@PathVariable String id){
-        UUID uuid;
-        try{
-            uuid = UUID.fromString(id);
-        }catch (IllegalArgumentException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Неверный формат идентификатора");
-        }
-        return ResponseEntity.ok(courseService.findCourse(uuid));
+    public ResponseEntity<CourseDetailDTO> findCourse(@PathVariable UUID id){
+        return ResponseEntity.ok(courseService.findCourse(id));
     }
 
     @PostMapping
     public ResponseEntity<String> createCourse(@RequestBody @Valid CourseCreateUpdateDTO dto){
         courseService.createCourse(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Курс успешно создан: \n " + dto.getName() + " \n" + dto.getDescription());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateCourse(@PathVariable UUID id, @RequestBody @Valid CourseCreateUpdateDTO dto){
+        courseService.updateCourse(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body("Курс успешно обновлен: \n " + dto.getName() + " \n" + dto.getDescription());
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCourse(@PathVariable UUID id){
+        courseService.deleteCourse(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Курс успешно удален");
     }
 }

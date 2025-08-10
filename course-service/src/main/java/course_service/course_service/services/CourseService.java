@@ -54,4 +54,28 @@ public class CourseService {
         course.setDescription(dto.getDescription());
         courseRepository.createCourse(course);
     }
+
+    @Transactional
+    public void updateCourse(UUID id, CourseCreateUpdateDTO dto){
+        Course course = courseRepository.getCourseById(id);
+        if(course == null){
+            throw new EntityNotFoundException("Данный курс отсутствует в системе");
+        }
+        if(dto.getName() != null){
+            course.setName(dto.getName());
+        }
+        if(dto.getDescription() != null && !dto.getDescription().isEmpty()){
+            course.setDescription(dto.getDescription());
+        }
+        courseRepository.updateCourse(course);
+    }
+
+    @Transactional
+    public void deleteCourse(UUID id){
+        Course course = courseRepository.getCourseById(id);
+        if(course == null){
+            throw new EntityNotFoundException("Данный курс отсутствует в системе");
+        }
+        courseRepository.deleteCourse(id);
+    }
 }
