@@ -6,21 +6,26 @@ import java.util.UUID;
 import course_service.course_service.dtos.courseDTO.CourseBaseDTO;
 import course_service.course_service.dtos.courseDTO.CourseCreateUpdateDTO;
 import course_service.course_service.dtos.courseDTO.CourseDetailDTO;
+import course_service.course_service.kafka.producer.service.MessageProducer;
 import course_service.course_service.services.CourseService;
 import jakarta.validation.Valid;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
 
     private final CourseService courseService;
+    private final MessageProducer messageProducer;
 
-    public CourseController(CourseService courseService) {
+    @Autowired
+    public CourseController(CourseService courseService, MessageProducer messageProducer) {
         this.courseService = courseService;
+        this.messageProducer = messageProducer;
     }
 
     public void getCourses(){
@@ -52,5 +57,11 @@ public class CourseController {
     public ResponseEntity<String> deleteCourse(@PathVariable UUID id){
         courseService.deleteCourse(id);
         return ResponseEntity.status(HttpStatus.OK).body("Курс успешно удален");
+    }
+
+    @PostMapping("/test")
+    public ResponseEntity<String> sendTestMessage(@RequestParam String message){
+        messageProducer.sendMessage("test-topic", message);
+        return ResponseEntity.ok().body("Message sent: " + message);
     }
 }

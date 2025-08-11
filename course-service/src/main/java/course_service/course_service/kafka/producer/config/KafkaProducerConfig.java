@@ -1,0 +1,40 @@
+package course_service.course_service.kafka.producer.config;
+
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Класс, отвечающий за конфигурации брокера Kafka
+ */
+@Configuration
+public class KafkaProducerConfig {
+
+    /**
+     * Метод, создающий кафка продюсеров
+     * BOOTSTRAP_SERVERS_CONFIG - адрес кафка брокера
+     * KEY_SERIALIZER_CLASS_CONFIG - ключи сообщения в виде обичной строки
+     * VALUE_SERIALIZER_CLASS_CONFIG - значения сообщения - тоже обычная строка
+     * @return {@link DefaultKafkaProducerFactory} - кофигурационный объект с заданными свойствами
+     */
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+}
