@@ -9,7 +9,6 @@ import course_service.course_service.dtos.courseDTO.CourseDetailDTO;
 import course_service.course_service.kafka.producer.service.MessageProducer;
 import course_service.course_service.services.CourseService;
 import jakarta.validation.Valid;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
