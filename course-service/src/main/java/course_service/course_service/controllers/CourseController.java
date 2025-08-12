@@ -6,6 +6,7 @@ import java.util.UUID;
 import course_service.course_service.dtos.courseDTO.CourseBaseDTO;
 import course_service.course_service.dtos.courseDTO.CourseCreateUpdateDTO;
 import course_service.course_service.dtos.courseDTO.CourseDetailDTO;
+import course_service.course_service.kafka.common_events.course_user_events.assign_to_course.TeacherAssignToCourseResponse;
 import course_service.course_service.kafka.producer.service.MessageProducer;
 import course_service.course_service.services.CourseService;
 import jakarta.validation.Valid;
@@ -58,9 +59,12 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body("Курс успешно удален");
     }
 
-    @PostMapping("/test")
-    public ResponseEntity<String> sendTestMessage(@RequestParam String message){
-        messageProducer.sendMessage("test-topic", message);
-        return ResponseEntity.ok().body("Message sent: " + message);
+
+    @PostMapping("/couseusertest/{userId}/{courseId}")
+    public ResponseEntity<TeacherAssignToCourseResponse> sendCouseUserTest(
+            @PathVariable UUID userId,
+            @PathVariable UUID courseId) throws Exception {
+        TeacherAssignToCourseResponse response = messageProducer.sendAndWait(userId, courseId);
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,14 +1,28 @@
 package course_service.course_service.kafka.common_events.course_user_events.assign_to_course;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class TeacherAssignToCourseRequest {
     private UUID teacherId;
     private UUID courseId;
+    private String correlationId;
 
-    public TeacherAssignToCourseRequest(UUID teacherId, UUID courseId) {
+    @JsonCreator
+    public TeacherAssignToCourseRequest(@JsonProperty("teacherId") UUID teacherId,@JsonProperty("courseId") UUID courseId,@JsonProperty("correlationId") String correlationId) {
         this.teacherId = teacherId;
         this.courseId = courseId;
+        this.correlationId = correlationId;
+    }
+
+    public String getCorrelationId() {
+        return correlationId;
+    }
+
+    public void setCorrelationId(String correlationId) {
+        this.correlationId = correlationId;
     }
 
     public UUID getCourseId() {

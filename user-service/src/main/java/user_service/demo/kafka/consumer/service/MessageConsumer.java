@@ -30,15 +30,20 @@ public class MessageConsumer {
         TeacherAssignToCourseResponse response = new TeacherAssignToCourseResponse();
         response.setTeacherId(request.getTeacherId());
         response.setCourseId(request.getCourseId());
+        response.setCorrelationId(request.getCorrelationId());
+
         User user = userRepository.getUser(request.getTeacherId());
         if (user == null) {
-            throw new NotFoundException("Пользователь " + request.getTeacherId() + " не найден");
-        }
-        if(user.getRole().equals("TEACHER") == false) {
-            response.setTeacher(false);
             response.setExistsInSystem(false);
-            response.setMessage("Пользователь не является учителем");
+            response.setTeacher(false);
+            response.setMessage("Пользователь не найден");
+        } else {
+            response.setExistsInSystem(true);
+            boolean isTeacher = "TEACHER".equals(user.getRole());
+            response.setTeacher(isTeacher);
+            response.setMessage(isTeacher ? "OK" : "Не является учителем");
         }
-        kafkaTemplate.send("teacher-check-request", response);
+
+        kafkaTemplate.send("teacher-check-response", response);
     }
 }

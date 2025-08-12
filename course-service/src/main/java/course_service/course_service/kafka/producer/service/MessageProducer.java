@@ -2,37 +2,53 @@ package course_service.course_service.kafka.producer.service;
 
 import course_service.course_service.entities.Course;
 import course_service.course_service.kafka.common_events.course_user_events.assign_to_course.TeacherAssignToCourseRequest;
+import course_service.course_service.kafka.common_events.course_user_events.assign_to_course.TeacherAssignToCourseResponse;
 import course_service.course_service.repository.courseRepository.CourseRepositoryImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.query.sqm.EntityTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class MessageProducer {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
-    private final CourseRepositoryImpl courseRepository;
+    private final Map<String, CompletableFuture<TeacherAssignToCourseResponse>> futures = new ConcurrentHashMap<>();
 
     @Autowired
-    public MessageProducer(KafkaTemplate<String, Object> kafkaTemplate, CourseRepositoryImpl courseRepository) {
+    public MessageProducer(KafkaTemplate<String, Object> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
-        this.courseRepository = courseRepository;
     }
 
-    public void sendMessage(String topic, String message) {
-        kafkaTemplate.send(topic, message);
+    public TeacherAssignToCourseResponse sendAndWait(UUID userId, UUID courseId) throws Exception {
+        String correlationId = UUID.randomUUID().toString();
+
+        CompletableFuture<TeacherAssignToCourseResponse> future = new CompletableFuture<>();
+        futures.put(correlationId, future);
+
+        TeacherAssignToCourseRequest request =
+                new TeacherAssignToCourseRequest(userId, courseId, correlationId);
+
+        kafkaTemplate.send("teacher-check-request", request);
+
+        TeacherAssignToCourseResponse response = future.get(10, TimeUnit.SECONDS);
+        futures.remove(correlationId);
+        return response;
     }
 
-    public void sendMessageToAssignTeacher(UUID userId, UUID courseId) {
-        Course course = courseRepository.getCourseById(courseId);
-        if (course == null) {
-            throw new EntityNotFoundException("Курс не был найжен");
+    @KafkaListener(topics = "teacher-check-response", groupId = "course-group-id")
+    public void handleResponse(TeacherAssignToCourseResponse response) {
+        CompletableFuture<TeacherAssignToCourseResponse> future = futures.get(response.getCorrelationId());
+        if (future != null) {
+            future.complete(response);
         }
-        TeacherAssignToCourseRequest teacherAssignToCourseRequest = new TeacherAssignToCourseRequest(userId, courseId);
-        kafkaTemplate.send("teacher-check-request", teacherAssignToCourseRequest);
     }
 }

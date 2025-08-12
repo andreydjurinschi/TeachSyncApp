@@ -1,4 +1,4 @@
-package course_service.course_service.kafka.producer.config;
+package user_service.demo.kafka.producer;
 
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;

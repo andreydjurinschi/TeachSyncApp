@@ -8,16 +8,26 @@ public class TeacherAssignToCourseResponse {
     private boolean isTeacher;
     private boolean existsInSystem;
     private String message;
+    private String correlationId;
 
-    public TeacherAssignToCourseResponse(UUID courseId, UUID teacherId, boolean isTeacher, boolean existsInSystem, String message) {
+    public TeacherAssignToCourseResponse(UUID courseId, UUID teacherId, boolean isTeacher, boolean existsInSystem, String message, String correlationId) {
         this.courseId = courseId;
         this.teacherId = teacherId;
         this.isTeacher = isTeacher;
         this.existsInSystem = existsInSystem;
         this.message = message;
+        this.correlationId = correlationId;
     }
 
     public TeacherAssignToCourseResponse() {
+    }
+
+    public String getCorrelationId() {
+        return correlationId;
+    }
+
+    public void setCorrelationId(String correlationId) {
+        this.correlationId = correlationId;
     }
 
     public UUID getCourseId() {
