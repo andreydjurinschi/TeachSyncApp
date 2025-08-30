@@ -7,11 +7,8 @@ import course_service.course_service.entities.Course;
 import course_service.course_service.mappers.CourseMapper;
 import course_service.course_service.repository.courseRepository.CourseRepositoryImpl;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

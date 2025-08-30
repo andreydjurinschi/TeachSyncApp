@@ -6,8 +6,6 @@ import java.util.UUID;
 import course_service.course_service.dtos.courseDTO.CourseBaseDTO;
 import course_service.course_service.dtos.courseDTO.CourseCreateUpdateDTO;
 import course_service.course_service.dtos.courseDTO.CourseDetailDTO;
-import course_service.course_service.kafka.common_events.course_user_events.assign_to_course.TeacherAssignToCourseResponse;
-import course_service.course_service.kafka.producer.service.MessageProducer;
 import course_service.course_service.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class CourseController {
 
     private final CourseService courseService;
-    private final MessageProducer messageProducer;
 
     @Autowired
-    public CourseController(CourseService courseService, MessageProducer messageProducer) {
+    public CourseController(CourseService courseService) {
         this.courseService = courseService;
-        this.messageProducer = messageProducer;
     }
 
     public void getCourses(){
@@ -59,12 +55,4 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body("Курс успешно удален");
     }
 
-
-    @PostMapping("/couseusertest/{userId}/{courseId}")
-    public ResponseEntity<TeacherAssignToCourseResponse> sendCouseUserTest(
-            @PathVariable UUID userId,
-            @PathVariable UUID courseId) throws Exception {
-        TeacherAssignToCourseResponse response = messageProducer.sendAndWait(userId, courseId);
-        return ResponseEntity.ok(response);
-    }
 }
