@@ -6,6 +6,7 @@ import java.util.UUID;
 import course_service.course_service.dtos.courseDTO.CourseBaseDTO;
 import course_service.course_service.dtos.courseDTO.CourseCreateUpdateDTO;
 import course_service.course_service.dtos.courseDTO.CourseDetailDTO;
+import course_service.course_service.kafka.kafkaCourseService.CourseKafkaProducer;
 import course_service.course_service.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseKafkaProducer kafkaProducer;
 
     @Autowired
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, CourseKafkaProducer kafkaProducer) {
         this.courseService = courseService;
+        this.kafkaProducer = kafkaProducer;
     }
 
     public void getCourses(){
@@ -53,6 +56,12 @@ public class CourseController {
     public ResponseEntity<String> deleteCourse(@PathVariable UUID id){
         courseService.deleteCourse(id);
         return ResponseEntity.status(HttpStatus.OK).body("Курс успешно удален");
+    }
+
+    @GetMapping("/send/{message}")
+    public ResponseEntity<String> sendTestMessage(@PathVariable String message){
+        kafkaProducer.sendTestMessage(message);
+        return ResponseEntity.status(HttpStatus.OK).body("Test message sent");
     }
 
 }
