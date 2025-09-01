@@ -23,11 +23,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    // GET http://localhost:8080/users/allUsers
     @GetMapping("/allUsers")
     public ResponseEntity<List<UserToFindDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    // GET http://localhost:8080/users/id
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable UUID id) {
         try{
@@ -38,6 +40,7 @@ public class UserController {
         }
     }
 
+    // POST http://localhost:8080/users
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody @Valid CreateUpdateUserDTO userToCreate) {
          try{

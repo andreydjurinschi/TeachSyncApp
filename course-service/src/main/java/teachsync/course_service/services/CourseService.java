@@ -41,6 +41,7 @@ public class CourseService {
         if(course == null){
             throw new EntityNotFoundException("Данный курс отсутствует в системе");
         }
+        
         return courseMapper.toDTO(course);
     }
 

@@ -6,10 +6,12 @@ import java.util.UUID;
 public class CheckIfUserExistsResponse {
     private UUID userId;
     private boolean exists;
+    private boolean isTeacher;
 
-    public CheckIfUserExistsResponse(UUID userId, boolean exists) {
+    public CheckIfUserExistsResponse(UUID userId, boolean exists, boolean isTeacher) {
         this.userId = userId;
         this.exists = exists;
+        this.isTeacher = isTeacher;
     }
 
     public CheckIfUserExistsResponse() {
@@ -29,5 +31,13 @@ public class CheckIfUserExistsResponse {
 
     public void setExists(boolean exists) {
         this.exists = exists;
+    }
+
+    public boolean isTeacher() {
+        return isTeacher;
+    }
+
+    public void setTeacher(boolean teacher) {
+        isTeacher = teacher;
     }
 }

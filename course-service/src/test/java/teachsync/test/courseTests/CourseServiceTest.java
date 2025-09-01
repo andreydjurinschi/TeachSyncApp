@@ -5,7 +5,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import teachsync.course_service.dtos.courseDTO.CourseBaseDTO;
+import teachsync.course_service.dtos.courseDTO.CourseCreateUpdateDTO;
 import teachsync.course_service.dtos.courseDTO.CourseDetailDTO;
 import teachsync.course_service.entities.Course;
 import teachsync.course_service.mappers.CourseMapper;
@@ -31,6 +34,46 @@ public class CourseServiceTest {
     @Mock
     private CourseMapper courseMapper;
 
+
+    @Test
+    void updateCurse(){
+
+        UUID id = UUID.randomUUID();
+        Course courseToUpdate = new Course("OldName", "OldDescription");
+        courseToUpdate.setId(id);
+
+        CourseCreateUpdateDTO dtoToUpdate = new CourseCreateUpdateDTO(
+                "NewName",
+                "NewDescription"
+        );
+
+        when(courseRepository.getCourseById(courseToUpdate.getId())).thenReturn(courseToUpdate);
+        doNothing().when(courseRepository).updateCourse(courseToUpdate);
+
+        courseService.updateCourse(courseToUpdate.getId(), dtoToUpdate);
+
+        assertEquals("NewName", courseToUpdate.getName());
+        assertEquals("NewDescription", courseToUpdate.getDescription());
+    }
+
+    @Test
+    void createCourse(){
+        UUID id = UUID.randomUUID();
+        CourseCreateUpdateDTO courseCreateUpdateDTO = new CourseCreateUpdateDTO(
+                "Test", "Test"
+        );
+        Course course = new Course();
+        course.setId(id);
+        course.setName(courseCreateUpdateDTO.getName());
+        course.setDescription(courseCreateUpdateDTO.getDescription());
+
+        doNothing().when(courseRepository).createCourse(any(Course.class));
+        courseService.createCourse(courseCreateUpdateDTO);
+
+
+
+
+    }
 
     @Test
     void getCourseTest(){

@@ -19,7 +19,7 @@ public class CourseKafkaProducer {
     public CourseKafkaProducer(KafkaTemplate<String, CheckIfUserExistsEvent> kafkaTemplate, KafkaTemplate<String, CheckIfUserExistsEvent> checkIfUserExistsEventKafkaTemplate) {
         this.checkIfUserExistsEventKafkaTemplate = checkIfUserExistsEventKafkaTemplate;
     }
-
+    // user must be a teacher
     public void checkIfUserExistsEvent(CheckIfUserExistsEvent event){
         checkIfUserExistsEventKafkaTemplate.send("course-user", event);
     }
